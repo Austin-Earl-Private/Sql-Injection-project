@@ -18,32 +18,52 @@ def test_query(value1, value2, sanitizer, query):
     print("")
 
 # input has bad elements removed and then after being cleaned is returned
-def sanitize(value):
+def weak_sanitize(value):
+    return value
+def strong_sanitize(value):
     return value
 
-
-def automated_tests():
-    print("Testing Valid Queries:")
+def automated_tests(sanitizer, type):
+    print(f"Testing Valid Queries:")
     for set in valid:
-        test_query(set[0], set[1], sanitize,generate_user_query)
-    print("Testing Tautology Queries:")
+        test_query(set[0], set[1], sanitizer,generate_user_query)
+    print(f"Testing {type} Tautology Queries:")
     for set in tautology:
-        test_query(set[0], set[1], sanitize,generate_user_query)
-    print("Testing Union Queries:")
+        test_query(set[0], set[1], sanitizer,generate_user_query)
+    print(f"Testing {type} Union Queries:")
     for set in union:
-        test_query(set[0], set[1], sanitize,generate_user_query)
-    print("Testing Added Statement Queries:")
+        test_query(set[0], set[1], sanitizer,generate_user_query)
+    print(f"Testing {type} Added Statement Queries:")
     for set in add_stm:
-        test_query(set[0], set[1], sanitize,generate_user_query)
-    print("Testing Comment Queries:")
+        test_query(set[0], set[1], sanitizer,generate_user_query)
+    print(f"Testing {type} Comment Queries:")
     for set in comment:
-        test_query(set[0], set[1], sanitize,generate_user_query)
+        test_query(set[0], set[1], sanitizer,generate_user_query)
+    print("------------------------------------")
 
+def weak_automated_tests():
+    automated_tests(weak_sanitize,"Weak")
+
+def strong_automated_tests():
+    automated_tests(strong_sanitize,"Strong")
 
 def manual_test():
     username = input("What Username would you like use? ")
     password = input("What Password would you like to use? ")
-    test_query(username, password, sanitize)
+    sanitizer =weak_sanitize
+    while(True):
+        san = input("What type of Sanitizer would you like to use? Strong or Weak (s/w)")
+        if san.lower() =="strong" or san.lower() =="s":
+            sanitizer = strong_sanitize
+            break
+        elif san.lower() =="weak" or san.lower() =="w":
+            sanitizer = weak_sanitize
+            break
+        else:
+            print("Invalid input")
+            continue
+
+    test_query(username, password, sanitizer,generate_user_query)
 
 
 def menu():
@@ -62,6 +82,7 @@ def menu():
 if __name__ == "__main__":
     type = menu()
     if type == 1:
-        automated_tests()
+        weak_automated_tests()
+        strong_automated_tests()
     else:
         manual_test()
