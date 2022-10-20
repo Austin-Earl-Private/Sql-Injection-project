@@ -2,7 +2,7 @@ import re
 
 #Generates base query
 def genQuery(uName, password):
-   print("TEST BASIC QUERY\n")
+   print(f"select * from users where username='{uName}' and password='{password}';\n")
 
 #generates queries with weak mitigation techniques
 def genQueryWeak(uName, password):
@@ -78,19 +78,19 @@ def testComment(queryGen):
 
 #manual test option
 def manual_test():
-    username = input("What Username would you like use? ")
-    password = input("What Password would you like to use? ")
-    while(True):
-        san = input("What type of Sanitizer would you like to use? Strong or Weak (s/w)")
-        if san.lower() =="strong" or san.lower() =="s":
-            genQueryStrong(username, password)
-            break
-        elif san.lower() =="weak" or san.lower() =="w":
-            genQueryWeak(username, password)
-            break
-        else:
-            print("Invalid input")
-            continue
+   username = input("What Username would you like use? ")
+   password = input("What Password would you like to use? ")
+   while(True):
+      san = input("What type of Sanitizer would you like to use? Strong or Weak (s/w)")
+      if san.lower() =="strong" or san.lower() =="s":
+         genQueryStrong(username, password)
+         break
+      elif san.lower() =="weak" or san.lower() =="w":
+         genQueryWeak(username, password)
+         break
+      else:
+         print("Invalid input")
+         continue
     
 #run tests through query generator
 def run_Tests(queryGen):
