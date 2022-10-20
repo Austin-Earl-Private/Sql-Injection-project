@@ -2,15 +2,15 @@ import re
 
 #Generates base query
 def genQuery(uName, password):
-   print("TEST")
+   print("TEST BASIC QUERY\n")
 
 #generates queries with weak mitigation techniques
 def genQueryWeak(uName, password):
-   print("TEST")
+   print("TEST WEAK QUERY\n")
 
 #generates queries with strong mitigation techniques
 def genQueryStrong(uName, password):
-   print("TEST")
+   print("TEST STRONG QUERY\n")
 
 #sanitize string following rule "username and the password consist of letters, numbers, and underscores"
 def sanitizeString(string):
@@ -18,43 +18,63 @@ def sanitizeString(string):
 
 #run valid test cases
 def testValid(queryGen):
-   valid = [["test", "test"],
-   [],
-   [],
-   [],
-   []]
+   validTests = [["test", "test"],
+   ["test", "test"],
+   ["test", "test"],
+   ["test", "test"],
+   ["test", "test"]]
+   print("----  VALID TESTS    ----\n")
+   for validTest in validTests:
+      queryGen(validTest[0], validTest[1])
+   print("--------------------\n")
 
 #run tautology test cases
 def testTautology(queryGen):
-   tautology = [["test", "' or 1=1 --"],
-   [],
-   [],
-   [],
-   []]
+   tautologyTests = [["test", "' or 1=1 --"],
+   ["test", "' or 1=1 --"],
+   ["test", "' or 1=1 --"],
+   ["test", "' or 1=1 --"],
+   ["test", "' or 1=1 --"]]
+   print("----  TAUTOLOGY TESTS    ----\n")
+   for tautologyTest in tautologyTests:
+      queryGen(tautologyTest[0], tautologyTest[1])
+   print("--------------------\n")
 
 #run union test cases
 def testUnion(queryGen):
-   union = [["test", "' union select * from secrets --"],
-   [],
-   [],
-   [],
-   []]
+   unionTests = [["test", "' union select * from secrets --"],
+   ["test", "' union select * from secrets --"],
+   ["test", "' union select * from secrets --"],
+   ["test", "' union select * from secrets --"],
+   ["test", "' union select * from secrets --"]]
+   print("----  UNION TESTS    ----\n")
+   for unionTest in unionTests:
+      queryGen(unionTest[0], unionTest[1])
+   print("--------------------\n")
 
 #run additional statement test cases
 def testAddState(queryGen):
-   add_stm = [["test", "'; delete * from users where ''='"],
-   [],
-   [],
-   [],
-   []]
+   addStatementTests = [["test", "'; delete * from users where ''='"],
+   ["test", "'; delete * from users where ''='"],
+   ["test", "'; delete * from users where ''='"],
+   ["test", "'; delete * from users where ''='"],
+   ["test", "'; delete * from users where ''='"]]
+   print("----  ADD STATEMENT TESTS    ----\n")
+   for addStatmentTest in addStatementTests:
+      queryGen(addStatmentTest[0], addStatmentTest[1])
+   print("--------------------\n")
 
 #run comment test cases
 def testComment(queryGen):
-   comment = [["test ' --", ""],
-   [],
-   [],
-   [],
-   []]
+   commentTests = [["test ' --", ""],
+   ["test ' --", ""],
+   ["test ' --", ""],
+   ["test ' --", ""],
+   ["test ' --", ""]]
+   print("----  COMMENT TESTS    ----\n")
+   for commentTest in commentTests:
+      queryGen(commentTest[0], commentTest[1])
+   print("--------------------\n")
 
 #manual test option
 def manual_test():
@@ -87,7 +107,7 @@ def menu():
       print("\t 1: Base Query Results")
       print("\t 2: Weak Mitigation Results")
       print("\t 3: Strong Mitigation Results")
-      print("\t 2: Manual Input")
+      print("\t 4: Manual Input")
       test_type = int(input("Type which test to run: "))
       if test_type == 1:
          run_Tests(genQuery)
