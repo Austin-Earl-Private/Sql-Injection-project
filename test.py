@@ -129,8 +129,6 @@ def menu():
          print("Invalid input\n")
          continue
 
-menu()
-
 #program run point
-if __name__== "__test__":
+if __name__== "__mail__":
    menu()
