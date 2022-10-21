@@ -10,7 +10,9 @@ def genQueryWeak(uName, password):
    print(f"select * from users where username='{uName}' and password='{password}';")
    print("WEAK MITIGATION QUERY")
    #!!!mitigation strategy goes here!!!
-   print(f"select * from users where username='{uName}' and password='{password}';\n")
+   cleanUname = sanitizeString(uName)
+   cleanPassword = sanitizeString(password)
+   print(f"select * from users where username='{cleanUname}' and password='{cleanPassword}';\n")
 
 #generates queries with strong mitigation techniques
 def genQueryStrong(uName, password):
@@ -18,11 +20,12 @@ def genQueryStrong(uName, password):
    print(f"select * from users where username='{uName}' and password='{password}';")
    print("STRONG MITIGATION QUERY")
    #!!!mitigation strategy goes here!!!
-   print(f"select * from users where username='{uName}' and password='{password}';\n")
+   print(f"select password from users where username='{sanitizeString(uName)}';\n")
 
 #sanitize string following rule "username and the password consist of letters, numbers, and underscores"
 def sanitizeString(string):
-   return string
+   cleanString = re.sub(r'[^a-zA-Z0-9_]', '', string)
+   return cleanString
 
 #run valid test cases  !!! need everyone in team to create 1 set for each test set per instructions !!!
 def testValid(queryGen):
@@ -130,5 +133,4 @@ def menu():
          continue
 
 #program run point
-if __name__== "__mail__":
-   menu()
+menu()
