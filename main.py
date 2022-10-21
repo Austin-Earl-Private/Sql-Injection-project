@@ -63,11 +63,11 @@ def testValid(queryGen):
 #  Function that runs tautology cases
 # 
 def testTautology(queryGen):
-   tautologyTests = [["Austin", "' or 1=1 --"],
-   ["Fr_Ed", "' or 1=1 --"],
-   ["_Brad", "' or 1=1 --"],
-   ["Daniel_", "' or 1=1 --"],
-   ["Spencer", "' or 1=1 --"]]
+   tautologyTests = [["Austin", "' or 1=1; --"],
+   ["Fr_Ed", "' or true=true; --"],
+   ["_Brad", "' or 1>10; --"],
+   ["*", "*"],
+   ["%_%", "%_%"]]
    print("----  TAUTOLOGY TESTS    ----\n")
    for tautologyTest in tautologyTests:
       queryGen(tautologyTest[0], tautologyTest[1])
@@ -78,11 +78,11 @@ def testTautology(queryGen):
 #  Function that runs union test cases
 # 
 def testUnion(queryGen):
-   unionTests = [["Austin", "' UNION SELECT * from secrets --"],
-   ["Fr_Ed", "' union select * from secrets --"],
-   ["_Brad", "' union select * from secrets --"],
-   ["Daniel_", "' union select count(*) from master.sys.database"],
-   ["Spencer", "' union select * from master.sys.server"]]
+   unionTests = [["Austin", "' UNION SELECT * from secrets; --"],
+   ["Fr_Ed", "' union select accounts, 1 from finances; --"],
+   ["_Brad", "' union select name, number from employees; --"],
+   ["Daniel_", "' union select count(*) from master.sys.database; --"],
+   ["Spencer", "' union select * from master.sys.server; --"]]
    print("----  UNION TESTS    ----\n")
    for unionTest in unionTests:
       queryGen(unionTest[0], unionTest[1])
@@ -93,11 +93,11 @@ def testUnion(queryGen):
 #  Function that runs additional stament test cases
 # 
 def testAddState(queryGen):
-   addStatementTests = [["Austin", "'; delete * from users where ''='"],
-   ["Fr_Ed", "'; delete * from users where ''='"],
-   ["_Brad", "'; delete * from users where ''='"],
-   ["Daniel_", "'; delete * from users where ''='"],
-   ["Spencer", "'; delete * from users where ''='"]]
+   addStatementTests = [["Austin", "'; DELETE FROM users"],
+   ["Fr_Ed", "'; ALTER TABLE users DROP COLUMN password; --"],
+   ["_Brad", "'; UPDATE users SET password=\"test\"; --"],
+   ["Daniel_", "'; DROP TABLE users; --"],
+   ["Spencer", "'; INSERT INTO users (username, password) VALUES (\"test\", \"test\"); --"]]
    print("----  ADD STATEMENT TESTS    ----\n")
    for addStatmentTest in addStatementTests:
       queryGen(addStatmentTest[0], addStatmentTest[1])
@@ -108,11 +108,11 @@ def testAddState(queryGen):
 #  Function that runs comment test cases
 # 
 def testComment(queryGen):
-   commentTests = [["Austin ' --", ""],
-   ["Fr_Ed ' --", ""],
-   ["_Brad ' --", ""],
-   ["Daniel_ ' --", ""],
-   ["Spencer ' --", ""]]
+   commentTests = [["Austin'; --", ""],
+   ["*'; --", ""],
+   ["otherEmployee'; --", ""],
+   ["'; --", ""],
+   ["admin'; --", ""]]
    print("----  COMMENT TESTS    ----\n")
    for commentTest in commentTests:
       queryGen(commentTest[0], commentTest[1])
