@@ -1,36 +1,52 @@
 import re
 
-#Generates no mitigation query
+#  genQuerry
+#  Funtion that takes uName and Password to combine them and print them as a SQL query command
+#
 def genQuery(uName, password):
    print(f"SELECT * FROM users WHERE username='{uName}' and password='{password}';\n")
 
-#generates queries with weak mitigation techniques
+
+#  genQueryWeak
+#  Function that generates queries using weak mitigation techniques
+#
 def genQueryWeak(uName, password):
    print("BASE QUERY")
    print(f"SELECT * FROM users WHERE username='{uName}' and password='{password}';")
    print("WEAK MITIGATION QUERY")
-   #!!!sanitize both name and password before building query
+   #  Sanitize both name and password before building query
    cleanUname = sanitizeString(uName)
    cleanPassword = sanitizeString(password)
    print(f"SELECT * FROM users WHERE username='{cleanUname}' and password='{cleanPassword}';\n")
 
-#generates queries with strong mitigation techniques
+
+#  genQueryWeak
+#  Function that generates queries using strong mitigation techniques
+#
 def genQueryStrong(uName, password):
    print("BASE QUERY")
    print(f"SELECT * FROM users WHERE username='{uName}' and password='{password}';")
    print("STRONG MITIGATION QUERY")
-   #reducing strings to lower and sanitizing the string for added security
+   #  Reducing strings to lower and sanitizing the string for added security
    sanitizedUName = str.lower(sanitizeString(uName))
-   #by changing the way the query is setup and only getting the information needed 
-   #closes a lot of holes as well as allowing passowrds to be more complex
+   #  By changing the way the query is setup and only getting the information needed 
+   #  closes a lot of holes as well as allowing passowrds to be more complex
    print(f"SELECT password FROM users WHERE username='{sanitizedUName}';\n")
 
-#sanitize string following rule "username and the password consist of letters, numbers, and underscores"
+
+#  sanitizeString
+#  Function that sanitizes strings using the following order "username and the password 
+#  consist of letters, numbers, and underscores"
+#
 def sanitizeString(string):
    cleanString = re.sub(r'[^a-zA-Z0-9_]', '', string)
    return cleanString
 
-#run valid test cases  !!! need everyone in team to create 1 set for each test set per instructions !!!
+
+#  testValid
+#  Function to run valid cases
+#  Note: Everyone in the team needs to create a test per case
+#
 def testValid(queryGen):
    validTests = [["Austin", "pass123"],
    ["Fr_Ed", "SuperSecure"],
@@ -42,7 +58,10 @@ def testValid(queryGen):
       queryGen(validTest[0], validTest[1])
    print("--------------------\n")
 
-#run tautology test cases
+
+#  testTautology
+#  Function that runs tautology cases
+# 
 def testTautology(queryGen):
    tautologyTests = [["Austin", "' or 1=1 --"],
    ["Fr_Ed", "' or 1=1 --"],
@@ -54,7 +73,10 @@ def testTautology(queryGen):
       queryGen(tautologyTest[0], tautologyTest[1])
    print("--------------------\n")
 
-#run union test cases
+
+#  testUnion
+#  Function that runs union test cases
+# 
 def testUnion(queryGen):
    unionTests = [["Austin", "' UNION SELECT * from secrets --"],
    ["Fr_Ed", "' union select * from secrets --"],
@@ -66,7 +88,10 @@ def testUnion(queryGen):
       queryGen(unionTest[0], unionTest[1])
    print("--------------------\n")
 
-#run additional statement test cases
+
+#  testAddState
+#  Function that runs additional stament test cases
+# 
 def testAddState(queryGen):
    addStatementTests = [["Austin", "'; delete * from users where ''='"],
    ["Fr_Ed", "'; delete * from users where ''='"],
@@ -78,7 +103,10 @@ def testAddState(queryGen):
       queryGen(addStatmentTest[0], addStatmentTest[1])
    print("--------------------\n")
 
-#run comment test cases
+
+#  testComment
+#  Function that runs comment test cases
+# 
 def testComment(queryGen):
    commentTests = [["Austin ' --", ""],
    ["Fr_Ed ' --", ""],
@@ -90,7 +118,11 @@ def testComment(queryGen):
       queryGen(commentTest[0], commentTest[1])
    print("--------------------\n")
 
-#manual test option
+
+#  manual_test
+#  Function that runs user inputs and test them with strong 
+#  or weak mitigation techniques
+# 
 def manual_test():
    username = input("What Username would you like use? ")
    password = input("What Password would you like to use? ")
@@ -106,7 +138,9 @@ def manual_test():
          print("Invalid input")
          continue
     
-#run tests through query generator
+#  run_Tests
+#  Function that runs tests through query generator
+# 
 def run_Tests(queryGen):
    testValid(queryGen)
    testTautology(queryGen)
@@ -114,7 +148,10 @@ def run_Tests(queryGen):
    testAddState(queryGen)
    testComment(queryGen)
 
-#basic menu function
+#  menu
+#  The function that contains the menu options. The user can select an option, 
+#  and then the menu will call the function according to the user's selection
+# 
 def menu():
    while (True):
       print("Types of tests:")
@@ -130,10 +167,12 @@ def menu():
       elif test_type == 3:
          run_Tests(genQueryStrong)
       elif test_type == 4:
-         manual_test
+         manual_test()
       else:
          print("Invalid input\n")
          continue
 
-#program run point
+#  menu 
+#  Here is where the program starts
+#
 menu()
