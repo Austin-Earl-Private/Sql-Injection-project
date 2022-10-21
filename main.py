@@ -2,25 +2,28 @@ import re
 
 #Generates base query
 def genQuery(uName, password):
-   print(f"select * from users where username='{uName}' and password='{password}';\n")
+   print(f"SELECT * FROM users WHERE username='{uName}' and password='{password}';\n")
 
 #generates queries with weak mitigation techniques
 def genQueryWeak(uName, password):
    print("BASE QUERY")
-   print(f"select * from users where username='{uName}' and password='{password}';")
+   print(f"SELECT * FROM users WHERE username='{uName}' and password='{password}';")
    print("WEAK MITIGATION QUERY")
-   #!!!mitigation strategy goes here!!!
+   #!!!sanitize both name and password before building query
    cleanUname = sanitizeString(uName)
    cleanPassword = sanitizeString(password)
-   print(f"select * from users where username='{cleanUname}' and password='{cleanPassword}';\n")
+   print(f"SELECT * FROM users WHERE username='{cleanUname}' and password='{cleanPassword}';\n")
 
 #generates queries with strong mitigation techniques
 def genQueryStrong(uName, password):
    print("BASE QUERY")
-   print(f"select * from users where username='{uName}' and password='{password}';")
+   print(f"SELECT * FROM users WHERE username='{uName}' and password='{password}';")
    print("STRONG MITIGATION QUERY")
-   #!!!mitigation strategy goes here!!!
-   print(f"select password from users where username='{sanitizeString(uName)}';\n")
+   #reducing strings to lower and sanitizing the string
+   str.lower(uName)
+   #by changing the way the query is setup and only getting the information needed 
+   #closes a lot of holes as well as allowing passowrds to be more complex
+   print(f"SELECT password FROM users WHERE username='{sanitizeString(uName)}';\n")
 
 #sanitize string following rule "username and the password consist of letters, numbers, and underscores"
 def sanitizeString(string):
@@ -29,11 +32,11 @@ def sanitizeString(string):
 
 #run valid test cases  !!! need everyone in team to create 1 set for each test set per instructions !!!
 def testValid(queryGen):
-   validTests = [["test", "test"],
-   ["test", "test"],
-   ["test", "test"],
-   ["test", "test"],
-   ["test", "test"]]
+   validTests = [["]Austin", "pass123"],
+   ["FrEd", "SuperSecure"],
+   ["Brad", "CrayCray"],
+   ["Daniel", "passpass321"],
+   ["Spencer", "123456789"]]
    print("----  VALID TESTS    ----\n")
    for validTest in validTests:
       queryGen(validTest[0], validTest[1])
@@ -53,7 +56,7 @@ def testTautology(queryGen):
 
 #run union test cases
 def testUnion(queryGen):
-   unionTests = [["test", "' union select * from secrets --"],
+   unionTests = [["test", "' UNION SELECT * from secrets --"],
    ["test", "' union select * from secrets --"],
    ["test", "' union select * from secrets --"],
    ["test", "' union select * from secrets --"],
