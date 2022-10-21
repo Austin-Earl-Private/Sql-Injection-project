@@ -1,6 +1,6 @@
 import re
 
-#Generates base query
+#Generates no mitigation query
 def genQuery(uName, password):
    print(f"SELECT * FROM users WHERE username='{uName}' and password='{password}';\n")
 
