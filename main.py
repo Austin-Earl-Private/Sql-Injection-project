@@ -34,7 +34,7 @@ def sanitizeString(string):
 def testValid(queryGen):
    validTests = [["Austin", "pass123"],
    ["Fr_Ed", "SuperSecure"],
-   ["_Brad", "CrayCray"],
+   ["_Brad", "Cray_Cray"],
    ["Daniel_", "passpass321"],
    ["Spencer", "123456789"]]
    print("----  VALID TESTS    ----\n")
@@ -59,8 +59,8 @@ def testUnion(queryGen):
    unionTests = [["Austin", "' UNION SELECT * from secrets --"],
    ["Fr_Ed", "' union select * from secrets --"],
    ["_Brad", "' union select * from secrets --"],
-   ["Daniel_", "' union select * from secrets --"],
-   ["Spencer", "' union select * from secrets --"]]
+   ["Daniel_", "' union select count(*) from master.sys.database"],
+   ["Spencer", "' union select * from master.sys.server"]]
    print("----  UNION TESTS    ----\n")
    for unionTest in unionTests:
       queryGen(unionTest[0], unionTest[1])
