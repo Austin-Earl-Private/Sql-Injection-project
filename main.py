@@ -30,8 +30,9 @@ def genQueryStrong(uName, password):
    #  Reducing strings to lower and sanitizing the string for added security
    sanitizedUName = str.lower(sanitizeString(uName))
    #  By changing the way the query is setup and only getting the information needed 
-   #  closes a lot of holes as well as allowing passowrds to be more complex
+   #  closes a lot of holes as well as allowing passwords to be more complex
    print(f"SELECT password FROM users WHERE username='{sanitizedUName}';\n")
+   #here you would compare the password retrieved with the password sent thus removing some SQL from workflow
 
 
 #  sanitizeString
