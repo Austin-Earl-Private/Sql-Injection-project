@@ -155,22 +155,30 @@ def run_Tests(queryGen):
 # 
 def menu():
    while (True):
-      print("Types of tests:")
-      print("\t 1: Base Query Results")
-      print("\t 2: Weak Mitigation Results")
-      print("\t 3: Strong Mitigation Results")
-      print("\t 4: Manual Input")
-      test_type = int(input("Type which test to run: "))
-      if test_type == 1:
-         run_Tests(genQuery)
-      elif test_type == 2:
-         run_Tests(genQueryWeak)
-      elif test_type == 3:
-         run_Tests(genQueryStrong)
-      elif test_type == 4:
-         manual_test()
-      else:
-         print("Invalid input\n")
+      try:
+         print("Types of tests:")
+         print("\t 1: Base Query Results")
+         print("\t 2: Weak Mitigation Results")
+         print("\t 3: Strong Mitigation Results")
+         print("\t 4: Manual Input")
+         print("\t 5: Exit")
+         test_type = int(input("Type which test to run: "))
+         if test_type == 1:
+            run_Tests(genQuery)
+         elif test_type == 2:
+            run_Tests(genQueryWeak)
+         elif test_type == 3:
+            run_Tests(genQueryStrong)
+         elif test_type == 4:
+            manual_test()
+         elif test_type == 5:
+            print("\t EXITING")
+            break
+         else:
+            print("Invalid input\n")
+            continue
+      except ValueError:
+         print("Invalid")
          continue
 
 #  menu 
